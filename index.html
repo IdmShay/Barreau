@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet d'avocats NGWANGU & ASSOCIES – Questions test Barreau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        :root {
+            --primary: #1e3c72;
+            --secondary: #2a5298;
+            --accent: #e67e22;
+            --light: #f4f7fb;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        body { background: #ecf0f3; min-height: 100vh; display: flex; flex-direction: column; }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 1rem 2rem; box-shadow: var(--shadow);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+        }
+        .logo h1 { font-size: 1.6rem; display: flex; align-items: center; gap: 10px; }
+        .logo i { font-size: 2rem; }
+        .search-box input {
+            padding: 0.7rem 1.5rem; border: none; border-radius: 40px; width: 300px;
+            font-size: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .main-menu {
+            display: flex; gap: 1rem; margin: 0 2rem;
+        }
+        .menu-btn {
+            background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.6rem 1.5rem;
+            border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .menu-btn.active { background: white; color: var(--primary); }
+        .menu-btn:hover { background: rgba(255,255,255,0.4); }
+        .container { display: flex; flex: 1; max-width: 1400px; margin: 20px auto; width: 100%; }
+        .sidebar {
+            width: 280px; background: white; border-radius: 20px; padding: 1.5rem; margin-right: 20px;
+            box-shadow: var(--shadow); height: fit-content; position: sticky; top: 20px;
+        }
+        .sidebar h3 {
+            color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem;
+            margin-bottom: 1.2rem; font-size: 1.3rem;
+        }
+        .series-list {
+            list-style: none; max-height: 500px; overflow-y: auto;
+        }
+        .series-item {
+            padding: 0.7rem 1rem; margin-bottom: 0.5rem; background: var(--light); border-radius: 8px;
+            cursor: pointer; transition: 0.2s; border-left: 4px solid transparent;
+            font-weight: 500; display: flex; align-items: center; gap: 8px;
+        }
+        .series-item:hover { background: #dbeafe; border-left-color: var(--accent); transform: translateX(5px); }
+        .series-item.active { background: #dbeafe; border-left-color: var(--accent); font-weight: 700; }
+        .content {
+            flex: 1; background: white; border-radius: 20px; padding: 1.8rem; box-shadow: var(--shadow);
+            overflow-y: auto; max-height: 80vh;
+        }
+        .stats {
+            display: flex; gap: 2rem; background: #f8fafc; padding: 1rem; border-radius: 15px;
+            margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .stat-label { color: var(--dark); font-size: 0.9rem; }
+        .question-card {
+            background: var(--light); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem;
+            border-left: 5px solid var(--accent); position: relative;
+        }
+        .question-number {
+            background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center; font-weight: bold;
+            margin-right: 10px;
+        }
+        .question-text { font-weight: 600; font-size: 1.1rem; color: var(--dark); }
+        .tags { margin: 0.8rem 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .tag {
+            background: #e0e7ff; color: var(--primary); padding: 0.2rem 0.8rem; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+        }
+        .answer-container {
+            background: white; border-radius: 10px; padding: 1rem; margin: 1rem 0;
+            border-left: 4px solid var(--success);
+        }
+        .answer-label { font-weight: 700; color: var(--success); margin-bottom: 0.3rem; display: block; }
+        .copy-btn {
+            background: var(--secondary); color: white; border: none; padding: 0.4rem 1rem;
+            border-radius: 20px; cursor: pointer; float: right; transition: 0.2s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .copy-btn:hover { background: var(--primary); }
+        .empty-state { text-align: center; padding: 3rem; color: #7f8c8d; }
+        .footer {
+            text-align: center; padding: 1.5rem; color: #7f8c8d; font-size: 0.9rem;
+        }
+        .hidden { display: none !important; }
+        .filter-badge {
+            display: inline-block; background: var(--accent); color: white; padding: 0.2rem 1rem;
+            border-radius: 20px; margin-bottom: 1rem; font-size: 0.9rem;
+        }
+        @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-gavel"></i>
+            <h1>Cabinet d'avocats NGWANGU & ASSOCIES – Items examen Barreau </h1>
+        </div>
+        <div class="main-menu">
+            <button id="menuQcm" class="menu-btn active"><i class="fas fa-list"></i> Questions par série</button>
+            <button id="menuDissert" class="menu-btn"><i class="fas fa-scroll"></i> Dissertation</button>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchGlobal" placeholder="Rechercher dans la rubrique active...">
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- SIDEBAR (dynamique selon le menu) -->
+        <aside class="sidebar" id="sidebar">
+            <!-- sera rempli par JS -->
+        </aside>
+
+        <!-- CONTENU PRINCIPAL -->
+        <section class="content" id="content">
+            <div class="stats" id="stats"></div>
+            <div id="seriesTitle" class="filter-badge"></div>
+            <div id="questionsContainer"></div>
+        </section>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 – Ces questions sont tirées des items des anciens tests du barreau de Kinshasa/Matete</p>
+    </div>
+
+    <script>
+        (function() {
+            // --------------------------------------------------------------
+            // 1. DONNÉES EXTRAITES DES DEUX FICHIERS
+            // --------------------------------------------------------------
+
+            // ---- DISSERTATIONS (25 sujets) et CULTURE JURIDIQUE (maximes) ----
+            const dissertData = [
+                { id: 1, question: "Je jure de dire la vérité, rien que la vérité", answer: "Le serment judiciaire garantit la sincérité des déclarations. Il renforce la crédibilité de la parole du témoin. Limites : la vérité judiciaire n'est pas absolue, le faux témoignage est sanctionné.", tags: ["dissertation","procédure"] },
+                { id: 2, question: "Je ne parlerai qu'en présence de mon avocat", answer: "Droit à l'assistance d'un avocat, droit de garder le silence. Garantie du procès équitable. L'avocat informe, conseille, prévient les erreurs.", tags: ["dissertation","procédure","droits"] },
+                { id: 3, question: "Juge civil, juge passif", answer: "Le juge civil n'agit pas d'office, il est saisi par les parties et statue dans les limites des demandes. Principe dispositif. Garantit l'impartialité.", tags: ["dissertation","procédure civile"] },
+                { id: 4, question: "Juge unique, juge inique", answer: "Le juge unique est un mode d'organisation ; l'iniquité renvoie à l'injustice. Le juge unique répond à des impératifs de célérité, encadré par les voies de recours.", tags: ["dissertation","organisation judiciaire"] },
+                { id: 5, question: "L'action civile suit l'action publique", answer: "Principe : la réparation civile dépend de l'action publique. Cohérence entre sanction et réparation. La victime peut se joindre à l'action pénale.", tags: ["dissertation","procédure pénale"] },
+                { id: 6, question: "L'indépendance du magistrat du parquet vis-à-vis du ministre de la justice", answer: "Le parquet est sous l'autorité du ministre de la Justice, mais les magistrats ont des garanties statutaires. Tension entre indépendance et hiérarchie.", tags: ["dissertation","organisation"] },
+                { id: 7, question: "La détention est la règle, la liberté l'exception", answer: "Principe : liberté individuelle, détention préventive exceptionnelle. En pratique, la détention est souvent extensive. Confronter principe et réalité.", tags: ["dissertation","détention"] },
+                { id: 8, question: "La parole est libre mais la plume est serve", answer: "Liberté d'expression. L'écrit, permanent, est plus encadré (diffamation, secret). Responsabilité plus facilement engagée par écrit.", tags: ["dissertation","libertés"] },
+                { id: 9, question: "Le civil tient le pénal en état", answer: "Le juge pénal sursoit à statuer lorsqu'une question civile préalable est déterminante. Exemple : validité d'un contrat.", tags: ["dissertation","procédure"] },
+                { id: 10, question: "Le juge de l'action est juge de l'exception", answer: "Le juge saisi de l'action principale est compétent pour statuer sur les exceptions. Économie de procédure.", tags: ["dissertation","procédure"] },
+                { id: 11, question: "Le principe du contradictoire, socle de la procédure civile", answer: "Chaque partie doit pouvoir connaître et discuter les prétentions adverses. Violation → nullité.", tags: ["dissertation","procédure"] },
+                { id: 12, question: "Nul ne plaide par procureur", answer: "On ne peut agir en justice par un simple mandataire non habilité. La représentation doit être assurée par un avocat ou représentant légal.", tags: ["dissertation","procédure"] },
+                { id: 13, question: "Nullité sans grief n'opère", answer: "Un acte irrégulier n'est annulé que s'il cause un grief. Évite le formalisme excessif.", tags: ["dissertation","procédure"] },
+                { id: 14, question: "Pourquoi voulez-vous devenir avocat ?", answer: "Vocation : défense des droits, contribution à la justice, indépendance, éthique, rigueur.", tags: ["dissertation","profession"] },
+                { id: 15, question: "Toute personne est présumée innocente", answer: "Principe fondamental. L'accusé est innocent jusqu'à preuve de sa culpabilité. Difficultés pratiques : détention préventive prolongée.", tags: ["dissertation","droits"] },
+                { id: 16, question: "Il n'y a point de cruelle tyrannie que celle que l'on exerce à l'ombre des lois et avec les couleurs de la justice", answer: "Citation de Montesquieu. La loi formelle peut masquer l'injustice. Nécessité de l'équité, du contrôle et de l'éthique.", tags: ["dissertation","philosophie"] },
+                { id: 17, question: "L'avocat est cru sur parole", answer: "Confiance particulière due à la déontologie. L'avocat engage sa responsabilité en cas de mensonge.", tags: ["dissertation","déontologie"] },
+                { id: 18, question: "L'État", answer: "Institution souveraine qui organise la société, garantit l'ordre public et les droits. Dans un État de droit, son pouvoir est encadré.", tags: ["dissertation","droit public"] },
+                { id: 19, question: "La distinction de principe entre la responsabilité civile délictuelle et la responsabilité pénale", answer: "Civile : réparer (art.258). Pénale : sanctionner. Finalités différentes, peuvent se recouper.", tags: ["dissertation","responsabilité"] },
+                { id: 20, question: "La morale commence là où aucune punition n'est possible, là où aucune condamnation n'est nécessaire", answer: "La morale guide au-delà de la loi. Complémentarité entre éthique et droit.", tags: ["dissertation","philosophie"] },
+                { id: 21, question: "Le Conseil d'État est-il un juge impartial de l'administration ?", answer: "Oui, grâce à des garanties statutaires et procédurales. Mais liens avec l'administration interrogent.", tags: ["dissertation","administratif"] },
+                { id: 22, question: "Le statut pénal du chef de l'État", answer: "Immunité temporaire pour les actes officiels. Poursuites possibles après mandat. Compétence de la Cour constitutionnelle.", tags: ["dissertation","pénal"] },
+                { id: 23, question: "Neminem laedit qui suo jure utitur", answer: "Nul ne lèse autrui en usant de son droit. Limite : l'abus de droit.", tags: ["dissertation","adage"] },
+                { id: 24, question: "Nullum crimen, nulla poena, nullum judicium sine lege", answer: "Principe de légalité des délits et des peines. Pas d'infraction ni de peine sans texte.", tags: ["dissertation","pénal"] },
+                { id: 25, question: "Toute personne est présumée coupable jusqu'à ce qu'elle prouve son innocence", answer: "Contraire à la présomption d'innocence. C'est à l'accusation de prouver la culpabilité.", tags: ["dissertation","pénal"] }
+            ];
+
+            const cultureData = [
+                { id: 1, question: "Ab initio", answer: "Dès le début. Un acte nul ab initio est réputé n'avoir jamais existé.", tags: ["culture","adage"] },
+                { id: 2, question: "Ab intestat", answer: "Sans testament. Succession légale.", tags: ["culture","adage"] },
+                { id: 3, question: "Ab irato", answer: "Sous l'effet de la colère. Peut atténuer la préméditation.", tags: ["culture","adage"] },
+                { id: 4, question: "Aberratio ictus", answer: "Déviation du coup. Responsable du résultat produit.", tags: ["culture","pénal"] },
+                { id: 5, question: "Action in rem verso", answer: "Enrichissement sans cause. Action subsidiaire.", tags: ["culture","civil"] },
+                { id: 6, question: "Actori incumbit probatio", answer: "La preuve incombe au demandeur.", tags: ["culture","procédure"] },
+                { id: 7, question: "Double degré de juridiction", answer: "Principe de l'appel.", tags: ["culture","procédure"] },
+                { id: 8, question: "Electa una via, non datur recursus ad alteram", answer: "Une fois une voie choisie, on ne peut recourir à une autre.", tags: ["culture","procédure"] },
+                { id: 9, question: "Reformatio in pejus", answer: "Réforme en pire. Interdiction d'aggraver le sort de l'appelant seul.", tags: ["culture","procédure"] },
+                { id: 10, question: "Ultra petita, infra petita, extra petita", answer: "Au-delà, en deçà, en dehors de la demande. Irrégularités.", tags: ["culture","procédure"] },
+                { id: 11, question: "Exceptio non adimpleti contractus", answer: "Exception d'inexécution.", tags: ["culture","contrats"] },
+                { id: 12, question: "Fraus omnia corrumpit", answer: "La fraude corrompt tout. Nullité.", tags: ["culture","adage"] },
+                { id: 13, question: "In dubio pro reo", answer: "Le doute profite au prévenu.", tags: ["culture","pénal"] },
+                { id: 14, question: "Intime conviction du juge", answer: "Liberté d'appréciation des preuves, mais doit être motivée.", tags: ["culture","procédure"] },
+                { id: 15, question: "La clause pénale", answer: "Fixation forfaitaire des dommages-intérêts.", tags: ["culture","contrats"] },
+                { id: 16, question: "Locus regit actum", answer: "La loi du lieu régit la forme de l'acte.", tags: ["culture","international"] },
+                { id: 17, question: "Nemo auditur propriam turpitudinem allegans", answer: "Nul ne peut se prévaloir de sa propre turpitude.", tags: ["culture","adage"] },
+                { id: 18, question: "Non bis in idem", answer: "Pas deux fois pour la même chose.", tags: ["culture","pénal"] },
+                { id: 19, question: "Action paulienne", answer: "Révocation des actes frauduleux du débiteur.", tags: ["culture","civil"] },
+                { id: 20, question: "Action récursoire", answer: "Recours de celui qui a payé contre le responsable.", tags: ["culture","civil"] },
+                { id: 21, question: "Res perit domino", answer: "La chose périt pour le propriétaire.", tags: ["culture","civil"] },
+                { id: 22, question: "Res perit debitori", answer: "La chose périt pour le débiteur en retard.", tags: ["culture","civil"] },
+                { id: 23, question: "Tantum devolutum quantum appellatum", answer: "L'appel ne défère que les chefs critiqués.", tags: ["culture","procédure"] }
+            ];
+
+            // ---- SÉRIES DE QUESTIONS (d'après le test d'admission) ----
+            const seriesData = {
+                "Série I": [
+                    { id: 1, question: "L'effet obligatoire du contrat trouve son socle dans divers fondements. Quel en est le principal ?", answer: "L'autonomie de la volonté (créatrice d'obligations s'imposant aux contractants, respect de la parole donnée).", tags: ["droit civil","obligations"] },
+                    { id: 2, question: "Le compte-courant d'associé est : a. Un apport en numéraire b. Un simple prêt c. Un compte bancaire d. Un compte secret e. Aucune bonne réponse", answer: "c. Un compte bancaire. Le compte courant d'associé est un prêt, une avance de fonds faite par un associé à la Société en contrepartie de laquelle vient s'adjoindre à la qualité d'associé celle de créancier.", tags: ["sociétés"] },
+                    { id: 3, question: "Un bien du domaine public de l'Etat peut-il être rangé dans son domaine privé ? Indiquez, le cas échéant, la procédure.", answer: "Oui, suivant la procédure de désaffectation.", tags: ["droit admin","domaine"] },
+                    { id: 4, question: "Le juge d'appel qui infirme un jugement avant dire droit interlocutoire peut-il connaitre du fond de l'affaire ? Dans l'affirmative dans quelle condition ?", answer: "Oui, le juge d'appel peut connaitre du fond lorsque la décision d'infirmation porte sur des questions autres que la saisine irrégulière ou l'incompétence du premier juge (art. 107 code de procédure pénale). C'est l'évocation.", tags: ["procédure","appel"] },
+                    { id: 5, question: "Quelle est la procédure de résiliation d'un contrat de travail pour faute lourde ?", answer: "(Article 72 al. 3) La partie qui décide de résilier un contrat pour faute lourde notifie par écrit à l'autre partie sa décision dans les 15 jours ouvrables au plus tard après avoir eu connaissance des faits qu'elle évoque.", tags: ["travail"] },
+                    { id: 6, question: "a. Quelles indications doit contenir le certificat de fin de service et endéans quel délai l'employeur doit le remettre ? b. Une donation entre vifs est-elle révocable ? Dans l'affirmative, dans quelle hypothèse ?", answer: "a. Nature et durée des services, date début et fin, numéro INSS. Délai: 2 jours ouvrables (art.79). b. Oui, en cas d'ingratitude ou d'inexécution des charges (art.890-891 Code famille).", tags: ["travail","civil"] },
+                    { id: 7, question: "La mise en détention préventive en droit congolais, est-elle soumise à des conditions ? Si oui, lesquelles ?", answer: "Oui - indices sérieux de culpabilité, peine possible d'au moins 6 mois, risque de fuite ou identité douteuse (art.27 CPP).", tags: ["pénal","détention"] },
+                    { id: 8, question: "Donnez la différence entre : a. Un contrat et un acte juridique bilatéral b. Un acte juridique unilatéral et un contrat unilatéral", answer: "a. Aucune différence : contrat = acte bilatéral. b. Acte unilatéral = une seule volonté ; contrat unilatéral = deux volontés mais obligations pour une seule.", tags: ["civil","contrats"] },
+                    { id: 9, question: "Quelles sont les conditions à remplir pour accéder à la profession d'avocat en RDC ?", answer: "Art. 7 loi organique sur le Barreau.", tags: ["profession"] }
+                ],
+                "Série G": [
+                    { id: 1, question: "Pour cause de viol commis sur son patron au lieu de service. Mlle KITOKO est condamnée... Elle décide de former appel aux motifs... (exception de saisine irrégulière, obscuri libelli). Analyse.", answer: "L'exception de saisine irrégulière doit être soulevée in limine litis ; à la deuxième audience elle est couverte. L'exception d'obscuri libelli est dilatoire, la joindre au fond peut nuire à la défense.", tags: ["procédure","pénal"] },
+                    { id: 2, question: "Donnez la condition particulière exigée par la législation congolaise en matière d'emploi des étrangers et indiquez l'organe compétent.", answer: "Détention de la carte de travail pour étranger. Organe : Commission nationale des emplois des étrangers.", tags: ["travail","étrangers"] },
+                    { id: 3, question: "a. Les époux qui oublient de choisir le régime matrimonial exposent leur union à annulation ? b. Peuvent-ils se séparer à l'amiable ?", answer: "a. Faux, régime légal de la communauté réduite aux acquêts s'applique. b. Non, seul le divorce judiciaire est possible (art.546 Code famille).", tags: ["famille","régimes"] },
+                    { id: 4, question: "La responsabilité civile du dirigeant d'une SA ou SARL peut être recherchée : a. Par un tiers dès lors que le préjudice est social b. Par un associé si préjudice personnel c. Uniquement si quitus non donné d. Toutes bonnes", answer: "b. Par un associé lorsque le préjudice est personnel. Le tiers ne peut agir pour préjudice social.", tags: ["sociétés","responsabilité"] },
+                    { id: 5, question: "Commet une faute le sollicitant qui retire son offre tant qu'elle n'est pas parvenue ?", answer: "Faux, la rétractation de l'offre n'est pas fautive dans ce cas.", tags: ["contrats"] },
+                    { id: 6, question: "a. Durée de validité du mandat d'arrêt provisoire ? b. Comportement du magistrat si instruction pas terminée ?", answer: "a. 5 jours. b. Présenter l'inculpé en chambre du conseil pour prolongation.", tags: ["pénal","procédure"] },
+                    { id: 7, question: "Citez 5 modes d'extinction d'une obligation.", answer: "Paiement, novation, remise de dette, compensation, confusion.", tags: ["civil"] },
+                    { id: 8, question: "Définir : dol général, dol spécial, délit prétentionnel, action ad exhibendum, défaut-congé.", answer: "Dol général: conscience d'enfreindre la loi. Dol spécial: mobile érigé en élément constitutif. Délit prétentionnel: infraction avec conséquences dépassant l'intention. Action ad exhibendum: production forcée de documents. Défaut-congé: demandeur non comparant.", tags: ["pénal","procédure"] },
+                    { id: 9, question: "Le dol ou déni de justice commis par un magistrat est-il pénalement passible de poursuites ?", answer: "Vrai et faux : pas pénalement, mais responsable professionnellement (prise à partie).", tags: ["organisation","magistrats"] },
+                    { id: 10, question: "Conditions accès à la profession d'avocat ?", answer: "Art.7 loi organique.", tags: ["profession"] }
+                ],
+                "Série C": [
+                    { id: 1, question: "Cas Edouard : vente avec rente viagère, clause résolutoire, non-paiement pendant 4 ans, le vendeur agit. Que risquent les parents ?", answer: "La clause résolutoire peut jouer, mais le juge peut accorder des délais de grâce. La tolérance passée ne vaut pas renonciation.", tags: ["contrats","vente"] },
+                    { id: 2, question: "M. ASOMBA a acheté en 1980 une partie du terrain de l'aéroport de N'djili. Peut-il construire ?", answer: "Non, bien du domaine public inaliénable et imprescriptible.", tags: ["domaine public"] },
+                    { id: 3, question: "Du point de vue de la responsabilité délictuelle, l'on ne peut répondre que de son fait personnel. Vrai ou faux ?", answer: "Faux (art.260) : on répond aussi du fait d'autrui et du fait des choses.", tags: ["responsabilité"] },
+                    { id: 4, question: "Décharge du fondateur pour actes passés pendant la formation repris par la société ?", answer: "a. Suppose que le fondateur informe le tiers qu'il agit pour une société en formation.", tags: ["sociétés"] },
+                    { id: 5, question: "Citez trois infractions subordonnées à la plainte de la victime.", answer: "Adultère, grivèlerie, infractions aux droits d'auteur, concurrence déloyale.", tags: ["pénal"] },
+                    { id: 6, question: "Règlement intérieur sanctionnant les absences maladie. M. Joseph sanctionné par mise à pied non prévue. Conseils ?", answer: "La clause est illégale (maladie non fautive). Saisir l'inspection du travail, puis tribunal.", tags: ["travail"] },
+                    { id: 7, question: "Quel est le critère consubstantiel du contrat de travail ? Donnez des indices.", answer: "Lien de subordination : exécution sous directives, horaires, sanctions, matériel fourni.", tags: ["travail"] },
+                    { id: 8, question: "Art.494 CCCLIII renforce l'obligation de garde. Cela correspond à ?", answer: "b. impossibilité de s'exonérer sauf force majeure.", tags: ["civil","dépôt"] },
+                    { id: 9, question: "La juridiction compétente pour un ministre est-elle la même que pour le Premier ministre ?", answer: "Non : Premier ministre → Cour constitutionnelle ; ministre → Cour de cassation.", tags: ["organisation","compétence"] },
+                    { id: 10, question: "Conditions accès profession avocat ?", answer: "Art.7.", tags: ["profession"] }
+                ],
+                "Série J": [
+                    { id: 1, question: "Stella et Graciella héritent, signent une convention de non-partage, Stella réclame en 2015. Fondé ?", answer: "Oui, principe 'nul ne peut être contraint à l'indivision'. Convention à durée indéterminée réduite à 5 ans (art.34 loi foncière).", tags: ["indivision"] },
+                    { id: 2, question: "Sur quoi repose la responsabilité civile contractuelle ?", answer: "Sur l'effet obligatoire des contrats (art.33). Inexécution fautive entraîne dommages-intérêts.", tags: ["civil","contrats"] },
+                    { id: 3, question: "Obligation solidaire : condition pour conserver l'action contre les autres après division avec un codébiteur ?", answer: "Sous déduction de la part du débiteur déchargé (art.108).", tags: ["obligations"] },
+                    { id: 4, question: "Violation d'une clause d'agrément statutaire est sanctionnée par ?", answer: "b. nullité en toutes circonstances.", tags: ["sociétés"] },
+                    { id: 5, question: "a. Durée de préavis pendant période d'essai ? b. Travailleur incarcéré peut-il être licencié ? Délai ?", answer: "a. 3 jours ouvrables. b. Oui, dans un délai de 3 mois suivant l'incarcération.", tags: ["travail"] },
+                    { id: 6, question: "Différence entre délai franc et délai préfixe, action paulienne et révocatoire, défaut-congé et défaut profit joint, libération et condamnation conditionnelle.", answer: "Délai franc : ne compte pas le dies a quo. Délai préfixe : forclusion. Action paulienne = révocatoire. Défaut-congé : demandeur absent. Défaut profit joint : jugement sur défaut du demandeur. Libération conditionnelle : sortie anticipée. Condamnation conditionnelle : sursis.", tags: ["procédure","pénal"] },
+                    { id: 7, question: "M. YIBA vole un téléviseur en détruisant la porte. Qualification ?", answer: "Vol (infraction fin) + destruction méchante (moyen). Concours d'infractions.", tags: ["pénal"] },
+                    { id: 8, question: "Un héritier peut-il former tierce opposition contre un jugement où le liquidateur a été partie ?", answer: "Non, il a été représenté.", tags: ["procédure"] },
+                    { id: 9, question: "a. Juridiction compétente pour pourvoi en cassation en matière commerciale ? b. Différence procédure gracieuse/contentieuse ?", answer: "a. CCJA. b. Gracieuse : sans contradiction, une seule partie. Contentieuse : contradictoire.", tags: ["compétence"] },
+                    { id: 10, question: "Conditions avocat ?", answer: "Art.7." }
+                ],
+                "Série A": [
+                    { id: 1, question: "Cas SARL : apports en nature, clause d'agrément, limitation des dividendes. Mots-clés et questions ?", answer: "Mots-clés : apports, évaluation, commissaire aux apports, clause d'agrément, clause léonine. Questions : évaluation de l'apport en nature de Durand (nécessité commissaire ?), consentement du conjoint, validité clause d'agrément totale, licéité de la limitation des dividendes (clause léonine ?).", tags: ["sociétés"] },
+                    { id: 2, question: "Gouverneur veut vendre l'hôpital Maman Yemo. Conseils ?", answer: "Immeuble du domaine public, inaliénable. Nécessité de désaffectation préalable.", tags: ["domaine public"] },
+                    { id: 3, question: "Coauteurs et complices sont-ils punis de la même manière ?", answer: "Non : coauteurs peine des auteurs, complices peine réduite de moitié (art.23 CPL2).", tags: ["pénal"] },
+                    { id: 4, question: "Distinction causes exonératoires, clauses limitatives, clauses pénales.", answer: "Causes exonératoires : force majeure, fait de la victime. Clauses limitatives : plafond de réparation. Clause pénale : montant forfaitaire.", tags: ["responsabilité"] },
+                    { id: 5, question: "Délai de paiement du décompte final ? Délai de l'employeur pour licencier ?", answer: "48h. 15 jours de la connaissance des faits.", tags: ["travail"] },
+                    { id: 6, question: "Ressemblances faute pénale et civile.", answer: "Toutes deux nécessitent un dommage et un lien de causalité.", tags: ["responsabilité"] },
+                    { id: 7, question: "Nature juridique : fruits et récoltes non séparés, animaux attachés à la culture, sol et mines.", answer: "a. immeuble par incorporation ; b. immeuble par destination ; c. immeuble par nature.", tags: ["biens"] },
+                    { id: 8, question: "Prohibition des pactes léonins : quelle règle ?", answer: "b. Impose le respect de l'égalité entre associés (pas d'exclusion totale).", tags: ["sociétés"] },
+                    { id: 9, question: "Dépôt verbal d'un collier de diamant, refus de restitution. Que faire ?", answer: "Preuve impossible (art.217,490) : dépôt >2000FC doit être écrit. Déposant ne pourra prouver.", tags: ["preuve"] },
+                    { id: 10, question: "Conditions avocat ?", answer: "Art.7." }
+                ],
+                "Série D": [
+                    { id: 1, question: "Jugement déguerpissement sur faux certificat. MAKIADI obtient jugement pénal constatant le faux. Conseils ?", answer: "Requête civile (art.85 CPC) : pièce fausse depuis jugement ou contrariété de jugements.", tags: ["procédure"] },
+                    { id: 2, question: "Exceptions au transfert immédiat de propriété ?", answer: "3 : volonté des parties, nature des choses, disposition légale.", tags: ["vente"] },
+                    { id: 3, question: "Décompte final peut-il ne pas être dû ?", answer: "Non, toujours dû, quitte à être nul ou négatif.", tags: ["travail"] },
+                    { id: 4, question: "Nationalité d'une société en droit congolais dépendait de ?", answer: "a. Son siège social statutaire (critère du siège réel).", tags: ["sociétés"] },
+                    { id: 5, question: "a. Parties au procès pénal ? b. 5 peines du CP ?", answer: "a. MP, partie civile, prévenu, civilement responsable. b. Mort, travaux forcés, servitude pénale, amende, confiscation.", tags: ["pénal"] },
+                    { id: 6, question: "Expliquez : Electa una via, ultra petita, double degré.", answer: "Electa : choix exclusif. Ultra petita : juge accorde plus. Double degré : appel.", tags: ["procédure"] },
+                    { id: 7, question: "Différence procédure pénale et civile (charge preuve, représentation).", answer: "Pénal : instruction préparatoire, preuve par MP, comparution personnelle. Civil : juge saisi sans preuve préconstituée, représentation par avocat possible.", tags: ["comparaison"] },
+                    { id: 8, question: "Conditions de l'infraction tentée ?", answer: "Résolution, commencement d'exécution, absence de désistement volontaire.", tags: ["pénal"] },
+                    { id: 9, question: "a. Nul ne peut être contraint à l'indivision ? b. Exemples biens domaine public.", answer: "a. Tout indivisaire peut demander le partage. b. Marché central, prison Makala, stade, palais de justice.", tags: ["indivision","domaine"] },
+                    { id: 10, question: "Conditions avocat ?", answer: "Art.7." }
+                ],
+                "Série E": [
+                    { id: 1, question: "Signification à un serviteur : régulière ? Incidence ?", answer: "Non (art.4 CPC). Le tribunal se déclare non saisi.", tags: ["procédure"] },
+                    { id: 2, question: "Étape et intérêt de la constitution de partie civile.", answer: "À tout moment jusqu'à clôture des débats. Intérêt : obtenir dommages-intérêts.", tags: ["pénal"] },
+                    { id: 3, question: "Qui peut initier action en contestation de paternité ?", answer: "Celui à qui la loi attribue la paternité, la mère, l'enfant, le père prétendu.", tags: ["famille"] },
+                    { id: 4, question: "Définir : délai de rétractation, pacte de préférence, réticence dolosive, abus de dépendance.", answer: "Délai pour revenir sur consentement. Pacte : priorité contractuelle. Réticence : dissimulation intentionnelle. Abus : exploitation de la faiblesse.", tags: ["contrats"] },
+                    { id: 5, question: "Dénomination sociale peut-elle inclure nom d'associé ?", answer: "a. Oui, pour se distinguer.", tags: ["sociétés"] },
+                    { id: 6, question: "Transfert du travailleur à un autre employeur légalement possible quand ?", answer: "Lorsque le nouvel employeur est désigné préalablement.", tags: ["travail"] },
+                    { id: 7, question: "Différence obéissance passive / baïonnette intelligente ?", answer: "Passive : excuse l'ordre du supérieur. Intelligente : doit distinguer ordre illégal.", tags: ["pénal","responsabilité"] },
+                    { id: 8, question: "Différence procédure pénale/civile (voies de recours et exécution).", answer: "Délais différents (30j civil, 10j pénal). Appel suspensif en pénal, exécution provisoire en civil.", tags: ["comparaison"] },
+                    { id: 9, question: "Cautionnement solidaire : étendue responsabilité ? Vente immeuble : quand devient-on propriétaire ?", answer: "a. Obligées à toute la dette. b. Au moment du certificat d'enregistrement ; pour voiture, dès accord (art.264).", tags: ["sûretés","vente"] },
+                    { id: 10, question: "Conditions avocat ?", answer: "Art.7." }
+                ],
+                "Série H": [
+                    { id: 1, question: "Délit d'audience après la sortie de l'audience. Régularité ?", answer: "Non, l'audience était levée. Procédure accélérée inapplicable.", tags: ["pénal","procédure"] },
+                    { id: 2, question: "Fondement de la responsabilité civile délictuelle ? Distinction avec objective ?", answer: "Fondement : faute (art.258). Objective : sans faute (risque).", tags: ["responsabilité"] },
+                    { id: 3, question: "Gérant SARL peut cumuler avec contrat de travail ?", answer: "c. S'il ne détient pas la majorité des parts et s'il y a subordination.", tags: ["sociétés"] },
+                    { id: 4, question: "a. Travailleur propose rupture commune accord, refusée ? b. Pendant suspension, obligations ?", answer: "a. Il démissionne. b. Obligation de non-concurrence.", tags: ["travail"] },
+                    { id: 5, question: "Différencier : infraction instantanée/continue (prescription), délai minimum/rigueur, interruption/désistement, jus sanguinis/soli, contrat aléatoire/commutatif.", answer: "Prescription : instantanée → acte ; continue → cessation. Délai minimum → à respecter avant action ; rigueur → forclusion. Interruption suspend ; désistement éteint. Jus sanguinis : filiation ; soli : territoire. Aléatoire : dépend d'un événement incertain ; commutatif : prestations certaines.", tags: ["divers"] },
+                    { id: 6, question: "Solutions législatives à la litispendance ?", answer: "Préférence à la juridiction d'appel, à celle ayant déjà rendu une décision autre qu'intérieure, ou à la première saisie (art.145 COFCJ).", tags: ["procédure"] },
+                    { id: 7, question: "MAKASI auteur, BETANGA complice d'assassinat. Peine pour BETANGA ?", answer: "Servitude pénale de 10 à 20 ans (art.23 CP).", tags: ["pénal"] },
+                    { id: 8, question: "Conservateur peut-il muter en vertu d'un jugement ?", answer: "Vrai, si jugement définitif.", tags: ["foncier"] },
+                    { id: 9, question: "Auteur et complice assassinat : peine complice ?", answer: "Servitude pénale 10 à 20 ans.", tags: ["pénal"] },
+                    { id: 10, question: "Conditions avocat ?", answer: "Art.7." }
+                ]
+            };
+
+            // --------------------------------------------------------------
+            // 2. LOGIQUE DE L'APPLICATION
+            // --------------------------------------------------------------
+            let activeMenu = "qcm"; // "qcm" ou "dissert"
+            let activeSeries = "Série I"; // pour le menu qcm
+            let activeDissertCategory = "dissertations"; // "dissertations" ou "culture"
+            let searchTerm = "";
+
+            const sidebarEl = document.getElementById('sidebar');
+            const contentEl = document.getElementById('content');
+            const statsEl = document.getElementById('stats');
+            const seriesTitleEl = document.getElementById('seriesTitle');
+            const questionsContainer = document.getElementById('questionsContainer');
+            const searchInput = document.getElementById('searchGlobal');
+            const menuQcm = document.getElementById('menuQcm');
+            const menuDissert = document.getElementById('menuDissert');
+
+            // rendu de la barre latérale en fonction du menu actif
+            function renderSidebar() {
+                if (activeMenu === "qcm") {
+                    let html = '<h3><i class="fas fa-layer-group"></i> Séries de QCM</h3><ul class="series-list">';
+                    for (let serie in seriesData) {
+                        html += `<li class="series-item ${activeSeries === serie ? 'active' : ''}" data-serie="${serie}"><i class="fas fa-file-alt"></i> ${serie}</li>`;
+                    }
+                    html += '</ul>';
+                    sidebarEl.innerHTML = html;
+                    document.querySelectorAll('.series-item').forEach(item => {
+                        item.addEventListener('click', (e) => {
+                            document.querySelectorAll('.series-item').forEach(el => el.classList.remove('active'));
+                            item.classList.add('active');
+                            activeSeries = item.dataset.serie;
+                            renderContent();
+                        });
+                    });
+                } else {
+                    sidebarEl.innerHTML = `
+                        <h3><i class="fas fa-book-open"></i> Dissertation & culture</h3>
+                        <ul class="series-list">
+                            <li class="series-item ${activeDissertCategory === 'dissertations' ? 'active' : ''}" data-cat="dissertations"><i class="fas fa-feather"></i> 25 sujets de dissertation</li>
+                            <li class="series-item ${activeDissertCategory === 'culture' ? 'active' : ''}" data-cat="culture"><i class="fas fa-gem"></i> Maximes & culture juridique</li>
+                        </ul>
+                    `;
+                    document.querySelectorAll('.series-item').forEach(item => {
+                        item.addEventListener('click', (e) => {
+                            document.querySelectorAll('.series-item').forEach(el => el.classList.remove('active'));
+                            item.classList.add('active');
+                            activeDissertCategory = item.dataset.cat;
+                            renderContent();
+                        });
+                    });
+                }
+            }
+
+            // rendu du contenu (questions filtrées)
+            function renderContent() {
+                let questions = [];
+                let title = "";
+
+                if (activeMenu === "qcm") {
+                    questions = seriesData[activeSeries] || [];
+                    title = activeSeries;
+                } else {
+                    if (activeDissertCategory === "dissertations") {
+                        questions = dissertData;
+                        title = "Dissertations (25 sujets)";
+                    } else {
+                        questions = cultureData;
+                        title = "Culture juridique - Maximes";
+                    }
+                }
+
+                // filtrage par recherche
+                if (searchTerm.trim() !== "") {
+                    const term = searchTerm.toLowerCase();
+                    questions = questions.filter(q => 
+                        q.question.toLowerCase().includes(term) || 
+                        q.answer.toLowerCase().includes(term)
+                    );
+                }
+
+                // statistiques
+                statsEl.innerHTML = `
+                    <div class="stat-item"><span class="stat-value">${questions.length}</span> <span class="stat-label">questions</span></div>
+                    <div class="stat-item"><span class="stat-value">${new Set(questions.flatMap(q=>q.tags)).size}</span> <span class="stat-label">tags</span></div>
+                `;
+
+                seriesTitleEl.textContent = title;
+
+                if (questions.length === 0) {
+                    questionsContainer.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h3>Aucun résultat</h3></div>`;
+                    return;
+                }
+
+                let html = "";
+                questions.forEach((q, idx) => {
+                    let tagsHtml = q.tags.map(t => `<span class="tag">${t}</span>`).join('');
+                    html += `
+                        <div class="question-card">
+                            <div>
+                                <span class="question-number">${q.id}</span>
+                                <span class="question-text">${q.question}</span>
+                            </div>
+                            <div class="tags">${tagsHtml}</div>
+                            <div class="answer-container">
+                                <span class="answer-label">Réponse :</span>
+                                <div>${q.answer}</div>
+                            </div>
+                            <button class="copy-btn" data-q="${q.question}" data-a="${q.answer.replace(/"/g, '&quot;')}"><i class="fas fa-copy"></i> Copier</button>
+                            <div style="clear:both"></div>
+                        </div>
+                    `;
+                });
+                questionsContainer.innerHTML = html;
+
+                // boutons copier
+                document.querySelectorAll('.copy-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        let q = this.dataset.q;
+                        let a = this.dataset.a;
+                        let text = `Question : ${q}\n\nRéponse : ${a}`;
+                        navigator.clipboard.writeText(text).then(() => {
+                            this.innerHTML = '<i class="fas fa-check"></i> Copié !';
+                            this.style.background = 'var(--success)';
+                            setTimeout(() => {
+                                this.innerHTML = '<i class="fas fa-copy"></i> Copier';
+                                this.style.background = '';
+                            }, 2000);
+                        });
+                    });
+                });
+            }
+
+            // changement de menu
+            function setMenu(menu) {
+                activeMenu = menu;
+                menuQcm.classList.toggle('active', menu === 'qcm');
+                menuDissert.classList.toggle('active', menu === 'dissert');
+                renderSidebar();
+                renderContent();
+            }
+
+            // événements
+            menuQcm.addEventListener('click', () => setMenu('qcm'));
+            menuDissert.addEventListener('click', () => setMenu('dissert'));
+
+            searchInput.addEventListener('input', (e) => {
+                searchTerm = e.target.value;
+                renderContent();
+            });
+
+            // initialisation
+            setMenu('qcm');
+        })();
+    </script>
+</body>
+</html>
